@@ -13,4 +13,35 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="title_activity_side_nav">sideNav</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <!--<string name="app_name">Project Unit2</string>-->
+    <!--<string name="action_settings">Settings</string>-->
+    <string name="Food_label">Food</string>
+    <string name="Health_label">Health</string>
+    <string name="Housekeeping_label">House keeping</string>
+    <string name="title_activity_service_listing">ServiceListingActivity</string>
+    <string name="title_activity_view_calendar">ViewCalendarActivity</string>
+    <string name="title_activity_book_mark">BookMarkActivity</string>
+
+    <string name="title_activity_service_detail">ServiceDetailActivity</string>
+    <string name="btn_schedule">Schedule</string>
+    <string-array name="timing_array">
+        <item>9:30am</item>
+        <item>11:30am</item>
+        <item>1:30pm</item>
+        <item>3:30pm</item>
+        <item>5:30pm</item>
+        <item>7:30pm</item>
+    </string-array>
+    <string-array name="frequency_array">
+        <item>daily</item>
+        <item>weekly</item>
+        <item>bi-weekly</item>
+        <item>monthly</item>
+    </string-array>
 </resources>
