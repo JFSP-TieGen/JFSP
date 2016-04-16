@@ -1,5 +1,6 @@
 package com.cmu.tiegen.db;
 
-public static void main(String[] args) {
-  System.out.println("Hello World !!");
-}
+//create User inner class
+//read User inner class
+//update user inner class
+//delete user inner class
