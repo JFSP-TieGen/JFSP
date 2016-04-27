@@ -1,4 +1,4 @@
-package com.cmu.tiegen.db;
+package db;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

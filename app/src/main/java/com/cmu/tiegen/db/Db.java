@@ -1,4 +1,4 @@
-package com.cmu.tiegen.db;
+package db;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
