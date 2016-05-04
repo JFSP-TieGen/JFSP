@@ -13,6 +13,7 @@
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_mismatch_password">Passwords do not match</string>
     <string name="error_field_required">This field is required</string>
+    <string name="error_duplicate_username">User name exists!</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
@@ -51,4 +52,5 @@
     <string name="action_sign_in">Sign in or register</string>
     <string name="new_user_sign_up">New User? Sign Up</string>
     <string name="back_to_login">Back to login</string>
+    <string name="title_activity_error_message">ErrorMessageActivity</string>
 </resources>

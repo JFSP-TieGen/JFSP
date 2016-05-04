@@ -24,6 +24,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -35,6 +36,7 @@ import android.widget.TextView;
 
 import com.cmu.tiegen.R;
 import com.cmu.tiegen.entity.User;
+import com.cmu.tiegen.exceptions.ExceptionHandler;
 import com.cmu.tiegen.remote.ServerConnector;
 import com.cmu.tiegen.util.Constants;
 
@@ -70,6 +72,7 @@ public class SignupActivity extends AppCompatActivity implements LoaderManager.L
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setContentView(R.layout.activity_signup);
         // Set up the signup form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.s_email);
@@ -338,6 +341,7 @@ public class SignupActivity extends AppCompatActivity implements LoaderManager.L
             } catch (Exception e) {
                 return false;
             }
+            Log.d("wewe",result.getPassword());
             if (result == null) {
                 return false;
             }

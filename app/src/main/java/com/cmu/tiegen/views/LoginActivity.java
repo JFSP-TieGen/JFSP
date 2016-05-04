@@ -32,6 +32,7 @@ import android.widget.TextView;
 
 import com.cmu.tiegen.R;
 import com.cmu.tiegen.entity.User;
+import com.cmu.tiegen.exceptions.ExceptionHandler;
 import com.cmu.tiegen.remote.ServerConnector;
 import com.cmu.tiegen.util.Constants;
 
@@ -65,6 +66,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
