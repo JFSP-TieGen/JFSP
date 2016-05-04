@@ -35,6 +35,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.cmu.tiegen.R;
+import com.cmu.tiegen.TieGenApplication;
 import com.cmu.tiegen.entity.User;
 import com.cmu.tiegen.exceptions.ExceptionHandler;
 import com.cmu.tiegen.remote.ServerConnector;
@@ -354,6 +355,7 @@ public class SignupActivity extends AppCompatActivity implements LoaderManager.L
             showProgress(false);
             if (success) {
                 finish();
+                TieGenApplication.getInstance().getAppContext().setUser(user);
                 Intent i = new Intent(mContext, DashboardActivity.class);
                 startActivityForResult(i, 0);
             } else {

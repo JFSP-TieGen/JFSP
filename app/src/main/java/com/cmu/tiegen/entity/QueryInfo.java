@@ -1,7 +1,9 @@
 package com.cmu.tiegen.entity;
 
+import java.io.Serializable;
+
 //used when display services in different types and searh for services
-public class QueryInfo {
+public class QueryInfo implements Serializable{
     	private static final long serialVersionUID = 6529685098267757690L;
 
 	String serviceName;

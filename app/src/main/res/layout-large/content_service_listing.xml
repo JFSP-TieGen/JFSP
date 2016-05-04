@@ -10,9 +10,9 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".views.ServiceListingActivity"
-    tools:showIn="@layout/activity_service_listing">
+    tools:showIn="@layout/fragment_service_listing">
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/custom_border">
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:text="Schedule"
             android:id="@+id/schedule_button"
-            android:gravity="right"
+            android:gravity="center"
             android:layout_gravity="right"
             android:paddingRight="20dp"
                 />

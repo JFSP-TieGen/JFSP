@@ -1,6 +1,8 @@
 package com.cmu.tiegen.views;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -8,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,10 +18,23 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.cmu.tiegen.R;
+
 import com.cmu.tiegen.exceptions.ExceptionHandler;
 
+import com.cmu.tiegen.TieGenApplication;
+import com.cmu.tiegen.entity.QueryInfo;
+import com.cmu.tiegen.entity.Service;
+import com.cmu.tiegen.entity.User;
+import com.cmu.tiegen.remote.ServerConnector;
+import com.cmu.tiegen.util.Constants;
+
+import java.util.ArrayList;
+
+
 public class DashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
     private Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,28 +43,25 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Button food = (Button)findViewById(R.id.food_button);
-        Button health = (Button)findViewById(R.id.health_button);
-        Button house_keeping=(Button)findViewById(R.id.housekeeping_button);
+        Button food = (Button) findViewById(R.id.food_button);
+        Button health = (Button) findViewById(R.id.health_button);
+        Button house_keeping = (Button) findViewById(R.id.housekeeping_button);
         food.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(v.getContext(), ServiceListingActivity.class);
-                startActivityForResult(i, 0);
+                sendRequest("food");
             }
         });
         health.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(v.getContext(), ServiceListingActivity.class);
-                startActivityForResult(i, 0);
+                sendRequest("health");
             }
         });
         house_keeping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(v.getContext(), ServiceListingActivity.class);
-                startActivityForResult(i, 0);
+                sendRequest("housekeeping");
             }
         });
 
@@ -60,6 +73,18 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    public void sendRequest(String type){
+        QueryInfo query = new QueryInfo();
+        query.setType(type);
+        query.setServiceName("%%");
+        query.setLocation("%%");
+        TieGenApplication.getInstance().getAppContext().setQueryInfo(query);
+
+        Intent i = new Intent(this, ServiceListingActivity.class);
+        startActivityForResult(i, 0);
+
     }
 
     @Override
@@ -102,35 +127,40 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-         if (id == R.id.nav_bookmark) {
+        if (id == R.id.nav_bookmark) {
             Toast.makeText(DashboardActivity.this, "" + "BookMark", Toast.LENGTH_SHORT).show();
-            intent = new Intent(this,BookMarkActivity.class);
+            intent = new Intent(this, BookMarkActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);
 
         } else if (id == R.id.nav_notifications) {
-             Toast.makeText(DashboardActivity.this, "" + "RateAndReview", Toast.LENGTH_SHORT).show();
-             intent = new Intent(this,RateAndReviewActivity.class);
-             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-             startActivity(intent);
+            Toast.makeText(DashboardActivity.this, "" + "RateAndReview", Toast.LENGTH_SHORT).show();
+            intent = new Intent(this, RateAndReviewActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
         } else if (id == R.id.nav_calendar) {
-             Toast.makeText(DashboardActivity.this, "" + "ViewCalendar", Toast.LENGTH_SHORT).show();
-             intent = new Intent(this,ViewCalendarActivity.class);
-             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-             startActivity(intent);
+            Toast.makeText(DashboardActivity.this, "" + "ViewCalendar", Toast.LENGTH_SHORT).show();
+            intent = new Intent(this, ViewCalendarActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
 
         } else if (id == R.id.nav_logout) {
-             Toast.makeText(DashboardActivity.this, "" + "LogOut", Toast.LENGTH_SHORT).show();
-             intent = new Intent(this,LoginActivity.class);
-             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-             startActivity(intent);
+            Toast.makeText(DashboardActivity.this, "" + "LogOut", Toast.LENGTH_SHORT).show();
+            intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }
+
+
+
+
 
 //private Intent intent;
 //    @Override

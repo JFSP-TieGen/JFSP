@@ -1,7 +1,9 @@
 package com.cmu.tiegen.entity;
 
+import java.io.Serializable;
+
 //rate of a booking
- public class Rate {
+ public class Rate implements Serializable{
      	private static final long serialVersionUID = 6529685098267757690L;
 
 	private int rateId;
@@ -10,6 +12,15 @@ package com.cmu.tiegen.entity;
 	private float rate;
 	private String review;
 	
+	public Rate(){
+		
+	}
+	public Rate(int uid, int oid, int rate, String review){
+		this.userId = uid;
+		this.orderId = oid;
+		this.rate = rate;
+		this.review = review;
+	}
 	
 	public int getRateId() {
 		return rateId;

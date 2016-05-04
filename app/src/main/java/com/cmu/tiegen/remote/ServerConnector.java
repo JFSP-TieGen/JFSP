@@ -10,10 +10,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class ServerConnector{
-    public Object sendRequest(String urlS, User input){
+    public Object sendRequest(String urlS, Object input){
         HttpURLConnection urlConnection = null;
         try {
-            User newUser = new User(input.getUserName(), input.getPassword());
+
             URL url = new URL(Constants.URL.concat(urlS));
 
             urlConnection = (HttpURLConnection) url.openConnection();
@@ -24,7 +24,7 @@ public class ServerConnector{
             urlConnection.setRequestProperty("Accept","*/*");
 //            urlConnection.setRe
             ObjectOutputStream out = new ObjectOutputStream(urlConnection.getOutputStream());
-            out.writeObject(newUser);
+            out.writeObject(input);
             out.close();
             ObjectInputStream in = new ObjectInputStream(urlConnection.getInputStream());
             Object output = in.readObject();

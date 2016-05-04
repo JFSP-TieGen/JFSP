@@ -1,9 +1,10 @@
 package com.cmu.tiegen.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 //a booked service
-public class Booking {	
+public class Booking implements Serializable{	
     	private static final long serialVersionUID = 6529685098267757690L;
 
 	private int orderId;
@@ -11,6 +12,13 @@ public class Booking {
 	private int serviceId;
 	private Date date;
 	private Rate rate;
+	
+	public Booking(int uid, int sid,Date date){
+		this.userId = uid;
+		this.serviceId = sid;
+		this.date = date;
+	}
+	
 	public int getOrderId() {
 		return orderId;
 	}

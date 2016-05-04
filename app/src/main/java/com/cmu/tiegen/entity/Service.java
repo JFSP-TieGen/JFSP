@@ -1,6 +1,8 @@
 package com.cmu.tiegen.entity;
 
-public class Service {
+import java.io.Serializable;
+
+public class Service implements Serializable{
     	private static final long serialVersionUID = 6529685098267757690L;
 
 	int serviceId;
