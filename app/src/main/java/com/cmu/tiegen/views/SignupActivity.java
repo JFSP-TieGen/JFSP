@@ -5,27 +5,24 @@ package com.cmu.tiegen.views;
  */
 
 
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.LoaderManager;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -211,10 +208,9 @@ public class SignupActivity extends AppCompatActivity implements LoaderManager.L
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user signup attempt.
-            showProgress(true);
-
-            mAuthTask = new UserSignupTask(new User(email,password), this);
-            mAuthTask.execute((Void) null);
+                showProgress(true);
+                mAuthTask = new UserSignupTask(new User(email, password), this);
+                mAuthTask.execute((Void) null);
         }
     }
 
@@ -331,29 +327,20 @@ public class SignupActivity extends AppCompatActivity implements LoaderManager.L
             this.user = user;
             this.mContext = context;
         }
-
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
             User result = null;
             try {
-                result = (User) serverConnector.sendRequest(Constants.URL_SIGN_UP, new User(user.getUserName(),user.getPassword()));
+                result = (User) serverConnector.sendRequest(Constants.URL_SIGN_UP, new User(user.getUserName(), user.getPassword()));
                 // Simulate network access.
 //                Thread.sleep(2000);
-
             } catch (Exception e) {
                 return false;
             }
-
-
-
-            if (result.getUserName().equals(user.getUserName())) {
-                // Account exists, return true if the password matches.
-                return result.getPassword().equals(result.getPassword());
+            if (result == null) {
+                return false;
             }
-
-
-            // TODO: register the new account here.
             return true;
         }
 
@@ -361,15 +348,15 @@ public class SignupActivity extends AppCompatActivity implements LoaderManager.L
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
             showProgress(false);
-
             if (success) {
                 finish();
                 Intent i = new Intent(mContext, DashboardActivity.class);
                 startActivityForResult(i, 0);
-
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+//                mPasswordView.setError(getString(R.string.error_incorrect_password));
+//                mPasswordView.requestFocus();
+                    mEmailView.setError(getString(R.string.error_duplicate_username));
+                    mEmailView.requestFocus();
             }
         }
 
