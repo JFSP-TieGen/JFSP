@@ -341,7 +341,7 @@ public class SignupActivity extends AppCompatActivity implements LoaderManager.L
             } catch (Exception e) {
                 return false;
             }
-            Log.d("wewe",result.getPassword());
+            //Log.d("wewe",result.getPassword());
             if (result == null) {
                 return false;
             }
