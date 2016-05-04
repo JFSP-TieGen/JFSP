@@ -19,7 +19,7 @@
              <!--/>
 
     </android.support.design.widget.AppBarLayout>-->
-    <include layout="@layout/content_service_listing" />
+    <!--<include layout="@layout/content_service_listing" />-->
 
 
 

@@ -35,13 +35,13 @@
             android:layout_below="@+id/calendar_schedule"
             android:layout_alignParentStart="true" />
     </RelativeLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="20dp"
-        android:text="Availability"
-        android:id="@+id/availability"
-        android:paddingLeft="20dp"/>
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:paddingTop="20dp"-->
+        <!--android:text="Availability"-->
+        <!--android:id="@+id/availability"-->
+        <!--android:paddingLeft="20dp"/>-->
     <CalendarView
         android:layout_width="700px"
         android:layout_height="300dp"

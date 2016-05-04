@@ -74,6 +74,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         populateAutoComplete();
         serverConnector = new ServerConnector();
 
+        if(TieGenApplication.getInstance().getAppContext().getUser() !=null){
+            Intent i = new Intent(this, DashboardActivity.class);
+            startActivityForResult(i, 0);
+        }
+
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -327,6 +332,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         private final User user;
         private Context mContext;
+        User result = null;
 
         UserLoginTask(User user, Context context) {
             this.user = user;
@@ -336,7 +342,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-            User result = null;
+
             try {
                 result = (User) serverConnector.sendRequest(Constants.URL_LOGIN, user);
                 // Simulate network access.
@@ -345,10 +351,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             } catch (Exception e) {
                 return false;
             }
-
-
-
-                if (result.getUserName().equals(user.getUserName())) {
+            if(result ==null){
+                return false;
+            }
+            else if (result.getUserName().equals(user.getUserName())) {
                     // Account exists, return true if the password matches.
                     return result.getPassword().equals(result.getPassword());
                 }
@@ -365,7 +371,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 finish();
-                TieGenApplication.getInstance().getAppContext().setUser(user);
+                TieGenApplication.getInstance().getAppContext().setUser(result);
                 Intent i = new Intent(mContext, DashboardActivity.class);
                 startActivityForResult(i, 0);
 

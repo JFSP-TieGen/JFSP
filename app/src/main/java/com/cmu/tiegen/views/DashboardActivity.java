@@ -146,6 +146,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
         } else if (id == R.id.nav_logout) {
             Toast.makeText(DashboardActivity.this, "" + "LogOut", Toast.LENGTH_SHORT).show();
+            TieGenApplication.getInstance().getAppContext().setUser(null);
             intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(intent);

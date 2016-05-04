@@ -326,6 +326,7 @@ public class SignupActivity extends AppCompatActivity implements LoaderManager.L
 
         private final User user;
         private Context mContext;
+        User result = null;
 
         UserSignupTask(User user, Context context) {
             this.user = user;
@@ -334,7 +335,7 @@ public class SignupActivity extends AppCompatActivity implements LoaderManager.L
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-            User result = null;
+
             try {
                 result = (User) serverConnector.sendRequest(Constants.URL_SIGN_UP, new User(user.getUserName(), user.getPassword()));
                 // Simulate network access.
@@ -355,7 +356,7 @@ public class SignupActivity extends AppCompatActivity implements LoaderManager.L
             showProgress(false);
             if (success) {
                 finish();
-                TieGenApplication.getInstance().getAppContext().setUser(user);
+                TieGenApplication.getInstance().getAppContext().setUser(result);
                 Intent i = new Intent(mContext, DashboardActivity.class);
                 startActivityForResult(i, 0);
             } else {

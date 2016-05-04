@@ -35,12 +35,12 @@
     <string name="title_activity_service_detail">ServiceDetailActivity</string>
     <string name="btn_schedule">Schedule</string>
     <string-array name="timing_array">
-        <item>9:30am</item>
-        <item>11:30am</item>
-        <item>1:30pm</item>
-        <item>3:30pm</item>
-        <item>5:30pm</item>
-        <item>7:30pm</item>
+        <item>09:30</item>
+        <item>11:30</item>
+        <item>13:30</item>
+        <item>15:30</item>
+        <item>17:30</item>
+        <item>19:30</item>
     </string-array>
     <string-array name="frequency_array">
         <item>daily</item>

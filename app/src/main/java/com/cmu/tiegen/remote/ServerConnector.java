@@ -4,13 +4,14 @@ package com.cmu.tiegen.remote;
 import com.cmu.tiegen.entity.User;
 import com.cmu.tiegen.util.Constants;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class ServerConnector{
-    public Object sendRequest(String urlS, Object input){
+    public Object sendRequest(String urlS, Object input)  {
         HttpURLConnection urlConnection = null;
         try {
 
@@ -32,12 +33,20 @@ public class ServerConnector{
             return  output;
 
         }catch(Exception e){
+            int code = 0;
+            try {
+                code = urlConnection.getResponseCode();
+            } catch (IOException e1) {
+                return "failure";
+            }
+            if(code == 200)
+                return "success";
             System.out.println("Exception:"+e.getMessage());
         }
         finally {
             urlConnection.disconnect();
         }
-        return null;
+        return "failure";
     }
 
     public static void main(String args[]){

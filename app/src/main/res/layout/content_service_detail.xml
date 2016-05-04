@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="XYZ Services"
-        android:id="@+id/xyz_services"
+        android:id="@+id/service_name"
         android:paddingLeft="20dp">
     </TextView>
     <TextView
@@ -35,7 +35,7 @@
         android:stepSize="0.1"
         android:isIndicator="true"
         android:paddingLeft="20dp"
-        android:layout_below="@+id/xyz_services"/>
+        android:layout_below="@+id/service_name"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
