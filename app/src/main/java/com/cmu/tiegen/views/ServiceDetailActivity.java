@@ -41,7 +41,7 @@ public class ServiceDetailActivity extends AppCompatActivity {
     Service service;
     private BookTask mAuthTask = null;
     private ServerConnector serverConnector = null;
-    private DataBaseConnector connector;
+    private DataBaseConnector connector = new DataBaseConnector(this);
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -55,7 +55,10 @@ public class ServiceDetailActivity extends AppCompatActivity {
         serviceHeading.setText(service.getName());
         TextView price =
                 (TextView) findViewById(R.id.price);
-//            price.setText(c.getPrice());
+            price.setText("$"+service.getPrice());
+//        TextView location =
+//                (TextView) findViewById(R.id.location);
+//        location.setText(service.getLocation());
         RatingBar rate = (RatingBar) findViewById(R.id.rating);
         rate.setRating(service.getAvgRate());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -86,6 +89,7 @@ public class ServiceDetailActivity extends AppCompatActivity {
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
         c.add(Calendar.DAY_OF_MONTH,1);
+
         datePicker.setMinDate(c.getTimeInMillis());
         c.add(Calendar.MONTH,6);
         datePicker.setMaxDate(c.getTimeInMillis());
@@ -123,6 +127,7 @@ public class ServiceDetailActivity extends AppCompatActivity {
 
 
             Booking booking = new Booking(user.getUserId(),service.getServiceId(),service.getName(),parsedDate);
+            booking.setTime(time);
             connector.insertBooking(booking);
             mAuthTask = new BookTask(booking, this);
             mAuthTask.execute((Void) null);
@@ -180,6 +185,7 @@ public class ServiceDetailActivity extends AppCompatActivity {
 //            showProgress(false);
 
             if (success) {
+                TieGenApplication.getInstance().getAppContext().setBooking(booking);
                 Intent i = new Intent(mContext, ViewCalendarActivity.class);
                 startActivityForResult(i, 0);
             } else {

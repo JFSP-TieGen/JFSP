@@ -19,6 +19,13 @@
         android:layout_marginBottom="8dp"
         android:visibility="gone" />
 
+    <ImageView
+        android:layout_width="230dp"
+        android:layout_height="100dp"
+        android:id="@+id/imageView2"
+        android:src="@drawable/tiegen_full"
+        android:layout_gravity="center_horizontal" />
+
     <ScrollView
         android:id="@+id/signup_form"
         android:layout_width="match_parent"

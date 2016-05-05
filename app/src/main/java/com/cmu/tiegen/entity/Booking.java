@@ -10,21 +10,18 @@ public class Booking implements Serializable{
 	private int orderId;
 	private int userId;
 	private int serviceId;
-	private Date date;
-	private Rate rate;
 	private String serviceName;
+	private Date date;
+	private String time;
+	private Rate rate;
+
 	public Booking(int uid, int sid,String serviceName,Date date){
 		this.userId = uid;
 		this.serviceId = sid;
 		this.date = date;
 		this.serviceName = serviceName;
 	}
-	public String getServiceName() {
-		return serviceName;
-	}
-	public void setServiceName(String serviceName) {
-		this.serviceName = serviceName;
-	}
+
 	public int getOrderId() {
 		return orderId;
 	}
@@ -54,6 +51,22 @@ public class Booking implements Serializable{
 	}
 	public void setRate(Rate rate) {
 		this.rate = rate;
+	}
+
+	public String getServiceName() {
+		return serviceName;
+	}
+
+	public void setServiceName(String serviceName) {
+		this.serviceName = serviceName;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
 	}
 	
 	

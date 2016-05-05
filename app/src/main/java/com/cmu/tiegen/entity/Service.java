@@ -12,14 +12,16 @@ public class Service implements Serializable{
 	String link;
 	//record the average rate of this service in database
 	float avgRate;
+	float price;
 
-	public Service(String name, String type, String location, String link, float avgRate) {
+	public Service(String name, String type, String location, String link, float avgRate, float price) {
 		super();
 		this.name = name;
 		this.type = type;
 		this.location = location;
 		this.link = link;
 		this.avgRate = avgRate;
+		this.price = price;
 	}
 	public int getServiceId() {
 		return serviceId;
@@ -57,6 +59,13 @@ public class Service implements Serializable{
 	public void setAvgRate(float avgRate) {
 		this.avgRate = avgRate;
 	}
+	public float getPrice() {
+		return price;
+	}
+	public void setPrice(float price) {
+		this.price = price;
+	}
+	
 
 	
 }

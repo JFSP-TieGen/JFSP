@@ -15,5 +15,7 @@ public class Constants {
     public static final String URL_SHOW_ALL_RATES = "/client/showAllRates";
     public static final String URL_DISPLAY_BOOKMARKS = "/client/displayBookmarks";
     public static final String URL_VIEW_CALENDAR_DAY = "/client/viewCalendarDay";
+    public static final String URL_GET_TO_RATE = "/client/getToRate";
+
 
 }

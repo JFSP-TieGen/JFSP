@@ -9,7 +9,7 @@
         <item
             android:id="@+id/nav_notifications"
             android:icon="@drawable/ic_menu_notifications"
-            android:title="Notifications" />
+            android:title="Rate your Services" />
         <item
             android:id="@+id/nav_bookmark"
             android:icon="@drawable/ic_menu_bookmark"
@@ -23,7 +23,7 @@
     <item android:title="Account">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/nav_user"
                 android:icon="@drawable/ic_menu_user"
                 android:title="John" />
             <item

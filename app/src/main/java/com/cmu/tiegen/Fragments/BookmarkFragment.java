@@ -22,9 +22,9 @@ import com.cmu.tiegen.TieGenApplication;
 import com.cmu.tiegen.entity.BookMark;
 import com.cmu.tiegen.entity.QueryInfo;
 import com.cmu.tiegen.entity.Service;
+import com.cmu.tiegen.entity.User;
 import com.cmu.tiegen.remote.ServerConnector;
 import com.cmu.tiegen.util.Constants;
-import com.cmu.tiegen.views.DashboardActivity;
 import com.cmu.tiegen.views.ServiceDetailActivity;
 import com.cmu.tiegen.views.ServiceListingActivity;
 import com.cmu.tiegen.views.ViewCalendarActivity;
@@ -33,10 +33,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+
 /**
- * Created by keerthanathangaraju on 5/4/16.
+ * Created by keerthanathangaraju on 5/5/16.
  */
-public class SearchFragment extends ListFragment {
+public class BookmarkFragment extends ListFragment {
     private List<Service> services;
     private SearchTask mAuthTask = null;
     private BookmarkTask bTask;
@@ -55,11 +56,11 @@ public class SearchFragment extends ListFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        ((SearchAdapter)getListAdapter()).notifyDataSetChanged();
+        ((BookmarkAdapter)getListAdapter()).notifyDataSetChanged();
     }
 
-    private class SearchAdapter extends ArrayAdapter<Service> {
-        public SearchAdapter(List<Service> scores) {
+    private class BookmarkAdapter extends ArrayAdapter<Service> {
+        public BookmarkAdapter(List<Service> scores) {
             super(getActivity(), android.R.layout.simple_list_item_1, scores);
         }
 
@@ -68,7 +69,7 @@ public class SearchFragment extends ListFragment {
             // if we weren't given a view, inflate one
             if (null == convertView) {
                 convertView = getActivity().getLayoutInflater()
-                        .inflate(R.layout.content_service_listing, null);
+                        .inflate(R.layout.content_bookmark_listing, null);
             }
 
             // configure the view for this Service
@@ -86,25 +87,25 @@ public class SearchFragment extends ListFragment {
             RatingBar rate = (RatingBar) convertView.findViewById(R.id.rating);
             rate.setRating(c.getAvgRate());
             Button schedule = (Button) convertView.findViewById(R.id.schedule_button);
-            ImageView bookmark = (ImageView) convertView.findViewById(R.id.bookmark);
+//            ImageView bookmark = (ImageView) convertView.findViewById(R.id.bookmark);
 
-            bookmark.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    TieGenApplication.getInstance().getAppContext().setService(c);
-                    if (bTask != null) {
-                        return;
-                    }
-                    BookMark bm = new BookMark(c.getServiceId(),TieGenApplication.getInstance().getAppContext().getUser().getUserId());
-
-                    // Show a progress spinner, and kick off a background task to
-                    // perform the user signup attempt.
-//            showProgress(true);
-
-                    bTask = new BookmarkTask(bm, getActivity());
-                    bTask.execute((Void) null);
-                }
-            });
+//            bookmark.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    TieGenApplication.getInstance().getAppContext().setService(c);
+//                    if (bTask != null) {
+//                        return;
+//                    }
+//                    BookMark bm = new BookMark(c.getServiceId(),TieGenApplication.getInstance().getAppContext().getUser().getUserId());
+//
+//                    // Show a progress spinner, and kick off a background task to
+//                    // perform the user signup attempt.
+////            showProgress(true);
+//
+//                    bTask = new BookmarkTask(bm, getActivity());
+//                    bTask.execute((Void) null);
+//                }
+//            });
 
             schedule.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -116,14 +117,14 @@ public class SearchFragment extends ListFragment {
                 }
             });
 
-//            convertView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    TieGenApplication.getInstance().getAppContext().setService(c);
-//                    Intent i = new Intent(v.getContext(), ServiceDetailActivity.class);
-//                    startActivityForResult(i, 0);
-//                }
-//            });
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TieGenApplication.getInstance().getAppContext().setService(c);
+                    Intent i = new Intent(v.getContext(), ServiceDetailActivity.class);
+                    startActivityForResult(i, 0);
+                }
+            });
 
 
 //
@@ -135,7 +136,7 @@ public class SearchFragment extends ListFragment {
     }
 
     private void sendRequest() {
-        QueryInfo query = TieGenApplication.getInstance().getAppContext().getQueryInfo();
+       User user = TieGenApplication.getInstance().getAppContext().getUser();
 
         if (mAuthTask != null) {
             return;
@@ -145,7 +146,7 @@ public class SearchFragment extends ListFragment {
         // perform the user signup attempt.
 //            showProgress(true);
 
-        mAuthTask = new SearchTask(query, getActivity());
+        mAuthTask = new SearchTask(user, getActivity());
         mAuthTask.execute((Void) null);
 
     }
@@ -156,12 +157,12 @@ public class SearchFragment extends ListFragment {
      */
     public class SearchTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final QueryInfo query;
+        private final User user;
         private Context mContext;
         private ArrayList<Service> result = null;
 
-        SearchTask(QueryInfo query, Context context) {
-            this.query = query;
+        SearchTask(User user, Context context) {
+            this.user = user;
             this.mContext = context;
         }
 
@@ -170,7 +171,7 @@ public class SearchFragment extends ListFragment {
             // TODO: attempt authentication against a network service.
 
             try {
-                result =  (ArrayList<Service>) serverConnector.sendRequest(Constants.URL_SEARCH_SERVICE, query);
+                result =  (ArrayList<Service>) serverConnector.sendRequest(Constants.URL_DISPLAY_BOOKMARKS, user);
                 // Simulate network access.
 //                Thread.sleep(2000);
 
@@ -187,7 +188,7 @@ public class SearchFragment extends ListFragment {
 
 
             // TODO: register the new account here.
-            return false;
+            return true;
         }
 
         @Override
@@ -196,10 +197,9 @@ public class SearchFragment extends ListFragment {
 //            showProgress(false);
 
             if (success) {
-                        services = result;
-        SearchAdapter adapter = new SearchAdapter(services);
-        setListAdapter(adapter);
-
+                services = result;
+                BookmarkAdapter adapter = new BookmarkAdapter(services);
+                setListAdapter(adapter);
 
             } else {
                 Toast.makeText(mContext, "No results found!!", Toast.LENGTH_LONG)

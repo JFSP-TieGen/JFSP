@@ -6,7 +6,7 @@ import java.util.Date;
 
 // user's schedule in one calendar day
 public class CalendarDay implements Serializable{
-	private static final long serialVersionUID = 6529685098267757690L;
+    	private static final long serialVersionUID = 6529685098267757690L;
 
 	int userId;
 	Date date;
@@ -37,5 +37,5 @@ public class CalendarDay implements Serializable{
 		this.orders = orders;
 	}
 
-
+	
 }
