@@ -14,6 +14,13 @@ public class CalendarDay implements Serializable{
 	public int getUserId() {
 		return userId;
 	}
+	public CalendarDay(){
+
+	}
+	public CalendarDay(int id, Date d){
+		this.userId = id;
+		this.date = d;
+	}
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}

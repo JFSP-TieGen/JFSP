@@ -18,16 +18,15 @@ import android.widget.Toast;
 import com.cmu.tiegen.R;
 import com.cmu.tiegen.TieGenApplication;
 import com.cmu.tiegen.entity.Booking;
-import com.cmu.tiegen.entity.QueryInfo;
 import com.cmu.tiegen.entity.Service;
 import com.cmu.tiegen.entity.User;
 import com.cmu.tiegen.exceptions.ExceptionHandler;
 import com.cmu.tiegen.remote.ServerConnector;
 import com.cmu.tiegen.util.Constants;
+import com.cmu.tiegen.util.DataBaseConnector;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -42,7 +41,7 @@ public class ServiceDetailActivity extends AppCompatActivity {
     Service service;
     private BookTask mAuthTask = null;
     private ServerConnector serverConnector = null;
-
+    private DataBaseConnector connector;
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -123,7 +122,8 @@ public class ServiceDetailActivity extends AppCompatActivity {
 //            showProgress(true);
 
 
-            Booking booking = new Booking(user.getUserId(),service.getServiceId(),parsedDate);
+            Booking booking = new Booking(user.getUserId(),service.getServiceId(),service.getName(),parsedDate);
+            connector.insertBooking(booking);
             mAuthTask = new BookTask(booking, this);
             mAuthTask.execute((Void) null);
             

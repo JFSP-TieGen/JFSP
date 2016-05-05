@@ -1,8 +1,10 @@
 package com.cmu.tiegen.views;
 
-import android.content.Context;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -10,7 +12,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,23 +19,22 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.cmu.tiegen.R;
-
-import com.cmu.tiegen.exceptions.ExceptionHandler;
-
 import com.cmu.tiegen.TieGenApplication;
+import com.cmu.tiegen.entity.Booking;
 import com.cmu.tiegen.entity.QueryInfo;
-import com.cmu.tiegen.entity.Service;
-import com.cmu.tiegen.entity.User;
-import com.cmu.tiegen.remote.ServerConnector;
-import com.cmu.tiegen.util.Constants;
+import com.cmu.tiegen.exceptions.ExceptionHandler;
+import com.cmu.tiegen.util.DataBaseConnector;
 
-import java.util.ArrayList;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class DashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
+    private DataBaseConnector connector = new DataBaseConnector(this);
     private Intent intent;
-
+    NotificationManager manager;
+    Notification myNotication;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +73,53 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+         // notification functions fron here
+        manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        Date date = new Date();
+        int day =date.getDay()+1;
+        int month = date.getMonth();
+        int year = date.getYear();
+        String d = year+"-"+month+"-"+day;
+        Date datenew = null;
+        try {
+            datenew = new SimpleDateFormat("yyyy-MM-dd").parse(d);
+        }catch (ParseException e) {
+           e.printStackTrace();
+        }
+         // 
+        //connector.insertBooking(new Booking(1, 2, "test service", datenew));
+     
+        Cursor c = connector.getAllBookings(datenew);
+
+        if(c.getCount()!=0) {
+
+            Intent intent = new Intent(this,ViewCalendarActivity.class);
+
+            PendingIntent pendingIntent = PendingIntent.getActivity(DashboardActivity.this, 1, intent, 0);
+
+            Notification.Builder builder = new Notification.Builder(DashboardActivity.this);
+
+            builder.setAutoCancel(false);
+            builder.setTicker("this is ticker text");
+            builder.setContentTitle("Tiegen Notification");
+            builder.setContentText("You have incoming booking! ");
+            builder.setSmallIcon(R.drawable.tiegen_logo);
+            builder.setContentIntent(pendingIntent);
+            builder.setOngoing(true);
+            c.moveToFirst();
+            builder.setSubText(c.getString(c.getColumnIndex("service_name")));   //API level 16
+            builder.setNumber(c.getCount());
+            builder.build();
+
+            myNotication = builder.getNotification();
+            manager.notify(11, myNotication);
+
+        }
+
     }
+
+
 
     public void sendRequest(String type){
         QueryInfo query = new QueryInfo();
