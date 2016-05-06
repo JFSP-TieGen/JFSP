@@ -6,9 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+
     tools:openDrawer="start">
 
     <include
+
         layout="@layout/app_bar_side_nav"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -19,7 +21,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-
+        app:headerLayout="@layout/nav_header_side_nav"
         app:menu="@menu/activity_side_nav_drawer"
         />
 

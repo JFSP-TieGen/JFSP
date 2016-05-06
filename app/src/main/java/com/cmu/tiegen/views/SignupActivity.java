@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -31,6 +32,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cmu.tiegen.R;
@@ -39,6 +41,7 @@ import com.cmu.tiegen.entity.User;
 import com.cmu.tiegen.exceptions.ExceptionHandler;
 import com.cmu.tiegen.remote.ServerConnector;
 import com.cmu.tiegen.util.Constants;
+import com.cmu.tiegen.util.DataBaseConnector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,17 +66,24 @@ public class SignupActivity extends AppCompatActivity implements LoaderManager.L
     private ServerConnector serverConnector = null;
 
     // UI references.
+    private DataBaseConnector connector = new DataBaseConnector(this);
+
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private EditText cPasswordView;
     private View mProgressView;
     private View mSignupFormView;
+    private Button camera;
+    private ImageView profilepic;
+    private Bitmap image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setContentView(R.layout.activity_signup);
+
+
         // Set up the signup form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.s_email);
         populateAutoComplete();
@@ -110,6 +120,25 @@ public class SignupActivity extends AppCompatActivity implements LoaderManager.L
         });
         mSignupFormView = findViewById(R.id.signup_form);
         mProgressView = findViewById(R.id.signup_progress);
+        camera = (Button) findViewById(R.id.camera);
+        profilepic = (ImageView) findViewById(R.id.profilepic);
+        camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, 0);
+            }
+        });
+    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO Auto-generated method stub
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Bitmap bp = (Bitmap) data.getExtras().get("data");
+        Bitmap resized = Bitmap.createScaledBitmap(bp, 64, 64, true);
+        image = resized;
+        TieGenApplication.getInstance().getAppContext().setImg(resized);
+        profilepic.setImageBitmap(resized);
     }
 
     private void populateAutoComplete() {
@@ -355,6 +384,8 @@ public class SignupActivity extends AppCompatActivity implements LoaderManager.L
             showProgress(false);
             if (success) {
                 finish();
+                connector.insertImg(result.getUserName(),image);
+//                TieGenApplication.getInstance().getAppContext().setImg(image);
                 TieGenApplication.getInstance().getAppContext().setUser(result);
                 Intent i = new Intent(mContext, DashboardActivity.class);
                 startActivityForResult(i, 0);

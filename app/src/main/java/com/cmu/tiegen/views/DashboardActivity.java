@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -110,6 +112,15 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
         MenuItem item = navigationView.getMenu().findItem(R.id.nav_user);
         item.setTitle(TieGenApplication.getInstance().getAppContext().getUser().getUserName());
+
+        Bitmap bm = TieGenApplication.getInstance().getAppContext().getImg();
+             bm =   bm == null? connector.getImg(TieGenApplication.getInstance().getAppContext().getUser().getUserName()):bm;
+        bm =  bm == null?BitmapFactory.decodeResource(getResources(),
+                R.drawable.ic_menu_user):bm;
+        ImageView pp = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.profilepic);
+        pp.setImageBitmap(bm);
+//        item.setTitle(TieGenApplication.getInstance().getAppContext().getUser().getUserName());
+
 
         // notification functions fron here
         manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);

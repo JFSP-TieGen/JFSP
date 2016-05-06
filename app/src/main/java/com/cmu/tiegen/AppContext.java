@@ -1,6 +1,7 @@
 package com.cmu.tiegen;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import com.cmu.tiegen.entity.BookMark;
 import com.cmu.tiegen.entity.Booking;
@@ -18,6 +19,7 @@ public class AppContext {
     private QueryInfo queryInfo;
     private Booking booking;
     private BookMark bookmark;
+    private Bitmap img;
 
     AppContext(Context context){
         mContext = context;
@@ -61,5 +63,13 @@ public class AppContext {
 
     public void setBookmark(BookMark bookmark) {
         this.bookmark = bookmark;
+    }
+
+    public Bitmap getImg() {
+        return img;
+    }
+
+    public void setImg(Bitmap img) {
+        this.img = img;
     }
 }

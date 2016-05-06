@@ -56,7 +56,7 @@ public class ExceptionHandler implements
         errorReport.append(LINE_SEPARATOR);
 
         Intent intent = new Intent(myContext, ErrorMessageActivity.class);
-        intent.putExtra("error", errorReport.toString());
+        intent.putExtra("error", "Network error! Press back to go back home");
         myContext.startActivity(intent);
 
         android.os.Process.killProcess(android.os.Process.myPid());

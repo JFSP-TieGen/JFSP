@@ -6,10 +6,13 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.cmu.tiegen.entity.Booking;
 
+import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,7 +22,7 @@ import java.util.Date;
  */
 public class DataBaseConnector {
     // database name
-    private static final String DATABASE_NAME = "mydb.db";
+    private static final String DATABASE_NAME = "new.db";
     private SQLiteDatabase database; // database object
     private DatabaseOpenHelper databaseOpenHelper; // database helper
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -79,6 +82,40 @@ public class DataBaseConnector {
                 null, null,"_id" );
     }
 
+    public void insertImg(String userid , Bitmap img ) {
+
+
+        byte[] data = getBitmapAsByteArray(img); // this is a function
+        ContentValues b = new ContentValues();
+        b.put("userid",userid);
+        b.put("image", data);
+
+        open(); // open the database
+        database.insert("user", null, b);
+        close(); // close the database
+
+    }
+
+    public Bitmap getImg(String userid){
+        open();
+        Cursor cursor = database.query("user", new String[]{"userid", "image"}, "userid = ?", new String[] {
+                       userid },
+                null, null,"userid" );
+        if(cursor.getCount()>0) {
+            cursor.moveToFirst();
+            byte[] img = cursor.getBlob(1);
+            return BitmapFactory.decodeByteArray(img, 0, img.length);
+        }
+        return null;
+    }
+
+    public static byte[] getBitmapAsByteArray(Bitmap bitmap) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
+        return outputStream.toByteArray();
+    }
+
+
 
 
     private class DatabaseOpenHelper extends SQLiteOpenHelper
@@ -99,6 +136,9 @@ public class DataBaseConnector {
                     "sid  int (100),"+"service_name  varchar (100),"+"date varchar(100))";
            // Log.d("sql",createQuery);
             db.execSQL(createQuery); // execute the query
+            createQuery = "CREATE TABLE user ("+
+                    "userid  varchar (100) primary key,"+"image BLOB)";
+            db.execSQL(createQuery);
         } // end method onCreate
 
         @Override

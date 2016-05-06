@@ -22,6 +22,15 @@
 
     <item android:title="Account">
         <menu>
+            <!--<item-->
+                <!--android:id="@+id/photo"-->
+                <!--android:title=""-->
+                <!--android:layout_width="100dp"-->
+                <!--android:layout_height="100dp">-->
+                <!--<ImageView android:id="@+id/profilepic"-->
+                    <!--android:layout_width="100dp"-->
+                    <!--android:layout_height="100dp"></ImageView>-->
+            <!--</item>-->
             <item
                 android:id="@+id/nav_user"
                 android:icon="@drawable/ic_menu_user"
